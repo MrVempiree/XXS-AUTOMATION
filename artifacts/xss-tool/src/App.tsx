@@ -2,16 +2,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
-import { Code2, Search, Shield, Zap, Target, Database, Activity, List, Crosshair } from 'lucide-react';
+import { Code2, Search, Shield, Zap, Target, Database, Activity, List, Layers } from 'lucide-react';
 import Library from './pages/Library';
 import Generator from './pages/Generator';
 import Encoder from './pages/Encoder';
 import Fuzzer from './pages/Fuzzer';
 import Scanner from './pages/Scanner';
 import SQLi from './pages/SQLi';
+import SQLiBulk from './pages/SQLiBulk';
 import Admin from './pages/Admin';
 import BulkScanner from './pages/BulkScanner';
-import ExploitEngine from './pages/ExploitEngine';
 import NotFound from './pages/not-found';
 import LicenseGate, { useLicense, clearLicense } from './components/LicenseGate';
 
@@ -22,17 +22,17 @@ function Sidebar() {
   const license = useLicense();
 
   const xssItems = [
-    { href: '/',        icon: Search,    label: 'Payload Library' },
-    { href: '/gen',     icon: Zap,       label: 'Generator' },
-    { href: '/encoder', icon: Code2,     label: 'Encoder' },
-    { href: '/scanner', icon: Target,    label: 'XSS Scanner' },
-    { href: '/bulk',    icon: List,      label: 'Bulk Scanner' },
-    { href: '/exploit', icon: Crosshair, label: 'Exploit Engine', badge: 'LIVE' },
-    { href: '/fuzzer',  icon: Shield,    label: 'Fuzzer' },
+    { href: '/',        icon: Search,  label: 'Payload Library' },
+    { href: '/gen',     icon: Zap,     label: 'Generator' },
+    { href: '/encoder', icon: Code2,   label: 'Encoder' },
+    { href: '/scanner', icon: Target,  label: 'XSS Scanner' },
+    { href: '/bulk',    icon: List,    label: 'Bulk XSS Scanner' },
+    { href: '/fuzzer',  icon: Shield,  label: 'Fuzzer' },
   ];
 
   const sqliItems = [
-    { href: '/sqli', icon: Database, label: 'SQLi Scanner' },
+    { href: '/sqli',      icon: Database, label: 'SQLi Scanner' },
+    { href: '/sqli-bulk', icon: Layers,   label: 'SQLi Mass Scanner', badge: 'NEW' },
   ];
 
   const NavBtn = ({ href, icon: Icon, label, badge }: {
@@ -52,7 +52,7 @@ function Sidebar() {
         <span className="flex-1 text-left">{label}</span>
         {badge && (
           <span className={`text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0 ${
-            badge === 'LIVE' ? 'bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse' :
+            badge === 'NEW' ? 'bg-primary/20 text-primary border border-primary/30' :
             'bg-primary/20 text-primary'
           }`}>
             {badge}
@@ -100,7 +100,7 @@ function Sidebar() {
           <button onClick={() => setLocation('/admin')} className="text-[10px] text-muted-foreground hover:text-foreground font-mono uppercase tracking-wider transition-colors">Admin</button>
           <button onClick={clearLicense} className="text-[10px] text-muted-foreground hover:text-destructive font-mono uppercase tracking-wider transition-colors">Logout</button>
         </div>
-        <div className="text-[9px] text-muted-foreground/30 font-mono px-2">v2.0 · Bug Bounty Edition</div>
+        <div className="text-[9px] text-muted-foreground/30 font-mono px-2">v3.0 · Bug Bounty Edition</div>
       </div>
     </div>
   );
@@ -118,15 +118,15 @@ function Layout({ children }: { children: React.ReactNode }) {
 function Router() {
   return (
     <Switch>
-      <Route path="/"        component={() => <Layout><Library /></Layout>} />
-      <Route path="/gen"     component={() => <Layout><Generator /></Layout>} />
-      <Route path="/encoder" component={() => <Layout><Encoder /></Layout>} />
-      <Route path="/scanner" component={() => <Layout><Scanner /></Layout>} />
-      <Route path="/bulk"    component={() => <Layout><BulkScanner /></Layout>} />
-      <Route path="/exploit" component={() => <Layout><ExploitEngine /></Layout>} />
-      <Route path="/fuzzer"  component={() => <Layout><Fuzzer /></Layout>} />
-      <Route path="/sqli"    component={() => <Layout><SQLi /></Layout>} />
-      <Route path="/admin"   component={Admin} />
+      <Route path="/"          component={() => <Layout><Library /></Layout>} />
+      <Route path="/gen"       component={() => <Layout><Generator /></Layout>} />
+      <Route path="/encoder"   component={() => <Layout><Encoder /></Layout>} />
+      <Route path="/scanner"   component={() => <Layout><Scanner /></Layout>} />
+      <Route path="/bulk"      component={() => <Layout><BulkScanner /></Layout>} />
+      <Route path="/fuzzer"    component={() => <Layout><Fuzzer /></Layout>} />
+      <Route path="/sqli"      component={() => <Layout><SQLi /></Layout>} />
+      <Route path="/sqli-bulk" component={() => <Layout><SQLiBulk /></Layout>} />
+      <Route path="/admin"     component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
