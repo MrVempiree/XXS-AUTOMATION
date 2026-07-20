@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "ALCAME XSS Toolkit"
+version = "1.0.0"
+id = "artifacts/xss-tool"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20547
+
+[services.development]
+run = "pnpm --filter @workspace/xss-tool run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/xss-tool", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/xss-tool/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20547"
+BASE_PATH = "/"
