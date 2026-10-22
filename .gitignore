@@ -47,3 +47,21 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# ---------------------------------------------------------------------------
+# Runtime license store
+#
+# SECURITY: this file holds LIVE license keys. It was previously committed to
+# this public repository, which published two active "lifetime" keys. It must
+# never be committed again.
+#
+# The app recreates the file (empty) on first run, so removing it from version
+# control is safe. Seed it on the server instead, or mint a key through the
+# admin panel.
+# ---------------------------------------------------------------------------
+artifacts/api-server/data/licenses.json
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
